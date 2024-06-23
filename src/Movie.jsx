@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaStar, FaTimes, FaTrashAlt, FaCheck } from 'react-icons/fa';
 
 const Movie = () => {
@@ -11,6 +11,8 @@ const Movie = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modalRef = useRef(null);
 
   const categories = ['all', 'action', 'comedy', 'drama', 'horror', 'romance'];
 
@@ -74,6 +76,24 @@ const Movie = () => {
     setIsModalOpen(false);
     setSelectedMovie(null);
   };
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeModal();
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalOpen]);
 
   const addToWatchlist = (movie) => {
     if (!watchlist.some(watchlistMovie => watchlistMovie.id === movie.id)) {
@@ -200,8 +220,8 @@ const Movie = () => {
       )}
 
       {isModalOpen && selectedMovie && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded w-full max-w-md mx-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={handleClickOutside}>
+          <div className="bg-white p-4 rounded w-full max-w-md mx-4 relative" ref={modalRef} onClick={e => e.stopPropagation()}>
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               onClick={closeModal}
@@ -226,12 +246,6 @@ const Movie = () => {
                 disabled={watchlist.some(watchlistMovie => watchlistMovie.id === selectedMovie.id)}
               >
                 {watchlist.some(watchlistMovie => watchlistMovie.id === selectedMovie.id) ? <FaCheck className="mr-1" /> : <FaStar className="mr-1" />} {watchlist.some(watchlistMovie => watchlistMovie.id === selectedMovie.id) ? 'In Watchlist' : 'Add to Watchlist'}
-              </button>
-              <button
-                className="px-2 py-1 rounded flex items-center text-xs bg-red-500 text-white cursor-pointer"
-                onClick={() => removeFromWatchlist(selectedMovie.id)}
-              >
-                <FaTrashAlt className="mr-1" /> Remove from Watchlist
               </button>
             </div>
           </div>
