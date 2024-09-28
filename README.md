@@ -23,11 +23,11 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 2. Clone the repository using the following command:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ganiramadhan/react-movie.git
    ```
 3. Navigate to the project directory:
    ```bash
-   cd <project-name>
+   cd react-movie
    ```
 
 4. Install Dependencies:
@@ -37,8 +37,10 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 
 5. Run the Development Server:
    ```bash
-   npm run dev
+   npm or yarn run dev
    ```
+
+Your application should now be running at http://localhost:9090. Open this URL in your browser to see your project in action!
 
 
 
