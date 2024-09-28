@@ -32,7 +32,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.co
 
 4. Install Dependencies:
    ```bash
-   cd <project-name>
+   npm or yarn install
    ```
 
 5. Run the Development Server:
